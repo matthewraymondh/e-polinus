@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.9.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 06, 2024 at 09:26 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.0.19
+-- Generation Time: Apr 21, 2024 at 03:33 PM
+-- Server version: 10.4.8-MariaDB
+-- PHP Version: 7.1.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -42,7 +43,10 @@ CREATE TABLE `daftar_poli` (
 INSERT INTO `daftar_poli` (`id_daftar_poli`, `id_pasien`, `id_jadwal`, `keluhan`, `no_antrian`) VALUES
 (7, 1, 8, '', 'A-001-040124'),
 (8, 1, 9, 'aaaaaaa', 'A-002-040124'),
-(9, 4, 10, 'aku sakit perut dok', 'A-003-040124');
+(9, 4, 10, 'aku sakit perut dok', 'A-003-040124'),
+(13, 1, 2, 'test', 'A-001-210424'),
+(14, 1, 2, 'testing gejala', 'A-002-210424'),
+(15, 1, 2, 'fffff', 'A-003-210424');
 
 -- --------------------------------------------------------
 
@@ -79,7 +83,8 @@ INSERT INTO `dokter` (`id`, `nama`, `alamat`, `no_hp`, `id_poli`) VALUES
 (2, 'Dr. Nabila Hafizah', 'Jl. Indraprasta No. H55', '085712110047', 2),
 (3, 'Dr. Joko Sulistyo Sp.And', 'Perumahan Graha Wahid No. 88 ', '081325354511', 3),
 (4, 'Dr. Handoko Tejo Utomo Sp.PD', 'Perumahan Bukit Asri No. J55', '081390577365', 4),
-(5, 'Rizky Setiawan', 'Jl. Ki Mangunsarkoro', '089675439815', 5);
+(5, 'Rizky Setiawan', 'Jl. Ki Mangunsarkoro', '089675439815', 5),
+(6, 'Matthew Raymond', 'Semarang', '087712346050', 5);
 
 -- --------------------------------------------------------
 
@@ -130,7 +135,8 @@ INSERT INTO `obat` (`id`, `nama_obat`, `kemasan`, `harga`) VALUES
 (5, 'Sanmol Paracetamol', '500 mg 4 Tablet', 2500),
 (6, 'Crofed Triprolidine HCL, Pseudoephedrine HCL', '33 mg 6 Tablet', 21000),
 (7, 'Demacap', '500 mg 20 Kapsul', 32000),
-(17, 'Tetracyclin', '250 mg 10 Tablet', 14000);
+(17, 'Tetracyclin', '250 mg 10 Tablet', 14000),
+(21, 'amoxicilyn', '10', 15000);
 
 -- --------------------------------------------------------
 
@@ -152,7 +158,7 @@ CREATE TABLE `pasien` (
 --
 
 INSERT INTO `pasien` (`id`, `nama`, `alamat`, `no_ktp`, `no_hp`, `nim`) VALUES
-(1, 'MUHAMMAD RIZKY SETIAWAN', 'Jl. Satria Utara no. 66', '112234555432', '089675439815', 'RM-001-010124'),
+(1, 'MUHAMMAD RIZKY SETIAWAN', 'Jl. Satria Utara no. 66', '112234555432', '089675439815', 'A11.2021.13275'),
 (4, 'MUHAMMAD MUCHNILLABIB', 'Jl. Singoyudan rt 03 rw 04', '122333444455555', '08987654321', 'RM-001-040124');
 
 -- --------------------------------------------------------
@@ -190,7 +196,8 @@ INSERT INTO `poli` (`id`, `nama_poli`, `keterangan`) VALUES
 (2, 'Poli Gigi', ''),
 (3, 'Poli Spesialis Paru', ''),
 (4, 'Poli Spesialis Jantung', ''),
-(5, 'Admin', '');
+(5, 'Admin', ''),
+(6, 'Apoteker', '');
 
 -- --------------------------------------------------------
 
@@ -216,7 +223,8 @@ INSERT INTO `user` (`id_user`, `id_user_level`, `id_dokter`, `username`, `passwo
 (2, 2, 2, 'nabila', '827ccb0eea8a706c4c34a16891f84e7b', 'nabila48@gmail.com'),
 (3, 2, 3, 'joko', '827ccb0eea8a706c4c34a16891f84e7b', 'joko@gmail.com'),
 (4, 2, 1, 'heri', '827ccb0eea8a706c4c34a16891f84e7b', 'heri55@gmail.com'),
-(5, 2, 4, 'handoko', '827ccb0eea8a706c4c34a16891f84e7b', 'handoko77@gmail.com');
+(5, 2, 4, 'handoko', '827ccb0eea8a706c4c34a16891f84e7b', 'handoko77@gmail.com'),
+(6, 3, 6, 'raymond', '21232f297a57a5a743894a0e4a801fc3', 'matthewraymond2003@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -234,8 +242,9 @@ CREATE TABLE `user_level` (
 --
 
 INSERT INTO `user_level` (`id_user_level`, `user_level`) VALUES
-(1, 'Administrator'),
-(2, 'Dokter');
+(1, 'Management Poli'),
+(2, 'Dokter'),
+(3, 'Apoteker');
 
 --
 -- Indexes for dumped tables
@@ -319,7 +328,7 @@ ALTER TABLE `user_level`
 -- AUTO_INCREMENT for table `daftar_poli`
 --
 ALTER TABLE `daftar_poli`
-  MODIFY `id_daftar_poli` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_daftar_poli` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `detail_periksa`
@@ -331,7 +340,7 @@ ALTER TABLE `detail_periksa`
 -- AUTO_INCREMENT for table `dokter`
 --
 ALTER TABLE `dokter`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `jadwal_periksa`
@@ -343,7 +352,7 @@ ALTER TABLE `jadwal_periksa`
 -- AUTO_INCREMENT for table `obat`
 --
 ALTER TABLE `obat`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `pasien`
@@ -361,19 +370,19 @@ ALTER TABLE `periksa`
 -- AUTO_INCREMENT for table `poli`
 --
 ALTER TABLE `poli`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user_level`
 --
 ALTER TABLE `user_level`
-  MODIFY `id_user_level` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user_level` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
